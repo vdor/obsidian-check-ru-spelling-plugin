@@ -6,6 +6,7 @@ import {
   NSpellCheckerFactory,
   SpellCheckerFactory,
 } from "./spellChecker/factory";
+import { debounce } from "./utils/debounce";
 import loadDictionary from "./utils/dictionaries";
 import { stOfrWordsToArray } from "./utils/words";
 
@@ -52,13 +53,16 @@ export default class SpellChekerPlugin extends Plugin {
 
     this.registerCodeMirror(this.attachCodeMirror);
     this.addSettingTab(new SpellChekerSettingTab(this.app, this));
-    this.registerInterval(
-      window.setInterval(this.checkSpellingOverEditor, 700)
-    );
   }
 
   attachCodeMirror = (cm: CodeMirror.Editor) => {
+    if (this.cm != null) {
+      this.cm.off('change', this.checkSpellingOverEditorDebounced);
+    }
+  
     this.cm = cm;
+    this.cm.on("change", this.checkSpellingOverEditorDebounced);
+    this.checkSpellingOverEditorDebounced();
   };
 
   async loadSettings() {
@@ -125,4 +129,6 @@ export default class SpellChekerPlugin extends Plugin {
       currentWord = "";
     }
   };
+
+  checkSpellingOverEditorDebounced = debounce(this.checkSpellingOverEditor, 1000, false);
 }
