@@ -25,7 +25,7 @@ export default class SpellChekerSettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Settings for checker of spellings." });
+    containerEl.createEl("h2", { text: "Settings for checker of spelling" });
 
     new Setting(containerEl)
       .setName("Custom words")
