@@ -1,5 +1,6 @@
 import { App, Plugin, PluginManifest } from "obsidian";
 
+import { getDefaultSettings } from "./core/settings";
 import SpellChekerSettingTab from "./core/settingTab";
 import SpellChecker from "./spellChecker/abstract";
 import {
@@ -13,10 +14,6 @@ import { stOfrWordsToArray } from "./utils/words";
 interface SpellChekerPluginSettings {
   customWords: string;
 }
-
-const DEFAULT_SETTINGS: SpellChekerPluginSettings = {
-  customWords: "",
-};
 
 const textRegexp = /^[А-я-]+$/;
 
@@ -57,16 +54,16 @@ export default class SpellChekerPlugin extends Plugin {
 
   attachCodeMirror = (cm: CodeMirror.Editor) => {
     if (this.cm != null) {
-      this.cm.off('change', this.checkSpellingOverEditorDebounced);
+      this.cm.off("change", this.checkSpellingOverEditorDebounced);
     }
-  
+
     this.cm = cm;
     this.cm.on("change", this.checkSpellingOverEditorDebounced);
     this.checkSpellingOverEditorDebounced();
   };
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = Object.assign(getDefaultSettings(), await this.loadData());
   }
 
   async saveSettings() {
@@ -76,6 +73,7 @@ export default class SpellChekerPlugin extends Plugin {
   handleChangeCustomWords = async (prevWords: string, newWords: string) => {
     await this.spellChecker.removeWords(stOfrWordsToArray(prevWords));
     await this.spellChecker.addWords(stOfrWordsToArray(newWords));
+    this.checkSpellingOverEditorDebounced();
   };
 
   checkSpellingOverEditor = async () => {
@@ -130,5 +128,9 @@ export default class SpellChekerPlugin extends Plugin {
     }
   };
 
-  checkSpellingOverEditorDebounced = debounce(this.checkSpellingOverEditor, 1000, false);
+  checkSpellingOverEditorDebounced = debounce(
+    this.checkSpellingOverEditor,
+    1000,
+    false
+  );
 }
