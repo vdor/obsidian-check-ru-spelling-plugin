@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-spelling-check-ru",
+	"name": "Spelling Checker (RU)",
+	"version": "0.0.1",
+	"minAppVersion": "0.9.12",
+	"description": "This is a sample plugin for Obsidian. This plugin checks russian spelling",
+	"author": "Vseslav Dorofeev",
+	"authorUrl": "https://github.com/vdor",
+	"isDesktopOnly": false
+}
