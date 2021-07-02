@@ -1,6 +1,6 @@
-import { AssertionError } from "assert";
-import nspell from "nspell";
-import { DictrionaryResult } from "src/types/dictionary";
+import { AssertionError } from 'assert';
+import nspell from 'nspell';
+import { DictrionaryResult } from 'src/types/dictionary';
 import SpellChecker from 'src/spellChecker/abstract';
 import NSpellChecker from 'src/spellChecker/nSpellChecker';
 
@@ -11,8 +11,10 @@ export abstract class SpellCheckerFactory {
 type DictionaryLoader = (affUri: string, dicUri: string) => Promise<DictrionaryResult>;
 
 export class NSpellCheckerFactory extends SpellCheckerFactory {
-  _affUris: string[];
-  _dicUris: string[];
+  #affUris: string[];
+
+  #dicUris: string[];
+
   loadDictionary: DictionaryLoader;
 
   constructor(affUris: string[], dicUris: string[], loadDictionary: DictionaryLoader) {
@@ -22,17 +24,17 @@ export class NSpellCheckerFactory extends SpellCheckerFactory {
       throw new AssertionError();
     }
 
-    this._affUris = affUris;
-    this._dicUris = dicUris;
+    this.#affUris = affUris;
+    this.#dicUris = dicUris;
     this.loadDictionary = loadDictionary;
   }
 
   async getSpellChecker(): Promise<SpellChecker> {
     const promises: Promise<DictrionaryResult>[] = [];
 
-    for (let i = 0; i < this._affUris.length; i++) {
-      const affUri = this._affUris[i];
-      const dicUri = this._dicUris[i];
+    for (let i = 0; i < this.#affUris.length; i += 1) {
+      const affUri = this.#affUris[i];
+      const dicUri = this.#dicUris[i];
       promises.push(this.loadDictionary(affUri, dicUri));
     }
     const dictionaries = await Promise.all(promises);

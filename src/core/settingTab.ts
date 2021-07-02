@@ -2,8 +2,8 @@ import {
   App,
   PluginSettingTab,
   Setting,
-  Plugin
-} from "obsidian";
+  Plugin,
+} from 'obsidian';
 import { SpellChekerPluginSettings } from './settings';
 
 interface CustomPlugin extends Plugin {
@@ -21,25 +21,23 @@ export default class SpellChekerSettingTab extends PluginSettingTab {
   }
 
   display(): void {
-    let { containerEl } = this;
+    const { containerEl } = this;
 
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Settings for checker of spelling" });
+    containerEl.createEl('h2', { text: 'Settings for checker of spelling' });
 
     new Setting(containerEl)
-      .setName("Custom words")
-      .setDesc("Custom spelling words")
-      .addText((text) =>
-        text
-          .setPlaceholder("Enter words separated by comma")
-          .setValue(this.plugin.settings.customWords)
-          .onChange(async (value) => {
-            const prev = this.plugin.settings.customWords;
-            this.plugin.settings.customWords = value;
-            this.plugin.handleChangeCustomWords(prev, value);
-            await this.plugin.saveSettings();
-          })
-      );
+      .setName('Custom words')
+      .setDesc('Custom spelling words')
+      .addText((text) => text
+        .setPlaceholder('Enter words separated by comma')
+        .setValue(this.plugin.settings.customWords)
+        .onChange(async (value) => {
+          const prev = this.plugin.settings.customWords;
+          this.plugin.settings.customWords = value;
+          this.plugin.handleChangeCustomWords(prev, value);
+          await this.plugin.saveSettings();
+        }));
   }
 }

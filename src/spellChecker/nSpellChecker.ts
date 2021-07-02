@@ -1,4 +1,4 @@
-import SpellChecker from "./abstract";
+import SpellChecker from './abstract';
 
 export default class NSpellChecker extends SpellChecker {
   nSpell: Nspell;
@@ -6,7 +6,7 @@ export default class NSpellChecker extends SpellChecker {
   constructor(nSpell: Nspell) {
     super();
     this.nSpell = nSpell;
-  };
+  }
 
   addWord(word: string): Promise<void> {
     this.nSpell.add(word);
@@ -14,7 +14,7 @@ export default class NSpellChecker extends SpellChecker {
   }
 
   async addWords(words: string[]): Promise<void> {
-    await Promise.all(words.map(word => this.addWord(word)));
+    await Promise.all(words.map((word) => this.addWord(word)));
   }
 
   removeWord(word: string): Promise<void> {
@@ -23,7 +23,7 @@ export default class NSpellChecker extends SpellChecker {
   }
 
   async removeWords(words: string[]): Promise<void> {
-    await Promise.all(words.map(word => this.removeWord(word)));
+    await Promise.all(words.map((word) => this.removeWord(word)));
   }
 
   suggest(word: string): Promise<string[]> {

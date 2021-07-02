@@ -1,4 +1,4 @@
-import { DictrionaryResult } from "src/types/dictionary";
+import { DictrionaryResult } from 'src/types/dictionary';
 
 async function loadFile(uri: string): Promise<Buffer> {
   const res = await fetch(uri);
