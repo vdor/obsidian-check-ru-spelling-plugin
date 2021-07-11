@@ -1,5 +1,5 @@
 # Obsidian Git
-This is a sample plugin for [Obsidian](https://obsidian.md/). This plugin checks Russian spelling
+This is a simple plugin for [Obsidian](https://obsidian.md/). This plugin checks Russian spelling
 
 ## How to use
 - install plugin
